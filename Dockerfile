@@ -30,7 +30,7 @@ WORKDIR /app
 COPY --from=builder /app/out/json/ .
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable pnpm && pnpm install --frozen-lockfile
+RUN corepack enable pnpm && pnpm install --frozen-lockfile --force
  
 # Build the project
 COPY --from=builder /app/out/full/ .
