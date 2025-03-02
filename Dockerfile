@@ -9,6 +9,8 @@ RUN apk update
 RUN apk add --no-cache libc6-compat
 # Set working directory
 WORKDIR /app
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
 # Replace <your-major-version> with the major version installed in your repository. For example:
 # RUN yarn global add turbo@^2
 RUN corepack enable pnpm && pnpm install -g turbo@^1
@@ -26,6 +28,8 @@ WORKDIR /app
  
 # First install the dependencies (as they change less often)
 COPY --from=builder /app/out/json/ .
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable pnpm && pnpm ci --frozen-lockfile
  
 # Build the project
