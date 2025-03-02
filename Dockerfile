@@ -11,7 +11,7 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 # Replace <your-major-version> with the major version installed in your repository. For example:
 # RUN yarn global add turbo@^2
-RUN pnpm install -g turbo@^1
+RUN corepack enable pnpm && pnpm install -g turbo@^1
 COPY --from=core /tmp/source/* .
  
 # Generate a partial monorepo with a pruned lockfile for a target workspace.
@@ -26,7 +26,7 @@ WORKDIR /app
  
 # First install the dependencies (as they change less often)
 COPY --from=builder /app/out/json/ .
-RUN pnpm ci --frozen-lockfile
+RUN corepack enable pnpm && pnpm ci --frozen-lockfile
  
 # Build the project
 COPY --from=builder /app/out/full/ .
