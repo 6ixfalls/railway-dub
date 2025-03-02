@@ -24,6 +24,7 @@ RUN turbo prune web --docker
 FROM base AS installer
 RUN apk update
 RUN apk add --no-cache libc6-compat
+RUN ln -s /usr/lib/libssl.so.3 /lib/libssl.so.3
 WORKDIR /app
  
 # First install the dependencies (as they change less often)
@@ -37,6 +38,7 @@ COPY --from=builder /app/out/full/ .
 RUN pnpm turbo run build
  
 FROM base AS runner
+RUN ln -s /usr/lib/libssl.so.3 /lib/libssl.so.3
 WORKDIR /app
  
 # Don't run production as root
