@@ -35,6 +35,7 @@ RUN corepack enable pnpm && pnpm install --frozen-lockfile=false --force
  
 # Build the project
 COPY --from=builder /app/out/full/ .
+ARG DATABASE_URL
 RUN pnpm turbo run build
  
 FROM base AS runner
